@@ -63,8 +63,6 @@ const data = JSON.parse(responseText);
       throw new Error(errorText);
     }
 
-    const data = await response.json();
-
     docs = data.map(d => ({
       id: d.id,
       title: d.judul || "",
