@@ -8,58 +8,60 @@ const CATS = [
   ["Sertifikat Pelatihan", "🏅", "Arsip sertifikat dan verifikasi peserta"]
 ];
 
-/* ==============================
+/* =========================
    SUPABASE
-============================== */
+========================= */
 
-const SUPABASE_URL =
-  "https://trixvdnjijuzxcqqlyyp.supabase.co";
+const SUPABASE_URL = "https://trixvdnjiuzxcqlyyp.supabase.co";
 
-const SUPABASE_KEY =
-  "sb_publishable_QxnF1iLbgs-meSBDLLZXww_eF1zZaZB";
+/*
+   PENTING:
+   Gunakan Publishable Key.
+   JANGAN gunakan secret/service_role key.
+*/
+const SUPABASE_KEY = "sb_publishable_QxnF1iLbgs-meSBDLLZXww_eF1zZaZB";
 
-const TABLE_URL =
-  `${SUPABASE_URL}/rest/v1/dokumen`;
-
-const STORAGE_URL =
-  `${SUPABASE_URL}/storage/v1/object/public/dokumen`;
+const TABLE_URL = `${SUPABASE_URL}/rest/v1/dokumen`;
 
 let docs = [];
 
-/* ==============================
-   AMBIL DATA SUPABASE
-============================== */
+
+/* =========================
+   LOAD DATA SUPABASE
+========================= */
 
 async function loadDocs() {
+
+  const container = document.getElementById("docs");
+  const empty = document.getElementById("empty");
 
   try {
 
     const response = await fetch(
       `${TABLE_URL}?select=id,judul,kategori,tahun,deskripsi,file_path,created_at&order=id.asc`,
       {
+        method: "GET",
         headers: {
-          apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`
+          "apikey": SUPABASE_KEY,
         }
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Supabase HTTP ${response.status}`);
+      const errorText = await response.text();
+      throw new Error(errorText);
     }
 
     const data = await response.json();
 
     docs = data.map(d => ({
       id: d.id,
-      title: d.judul,
-      cat: d.kategori,
-      year: String(d.tahun),
+      title: d.judul || "",
+      cat: d.kategori || "",
+      year: String(d.tahun || ""),
       number: d.id ? `DOC-${String(d.id).padStart(4, "0")}` : "—",
       desc: d.deskripsi || "",
-      url: d.file_path
-        ? `${STORAGE_URL}/${d.file_path}`
-        : ""
+      url: makeFileUrl(d.file_path)
     }));
 
     setup();
@@ -68,30 +70,47 @@ async function loadDocs() {
 
     console.error("Supabase error:", error);
 
-    const count = document.getElementById("count");
-    const empty = document.getElementById("empty");
+    docs = [];
 
-    if (count) {
-      count.textContent = "Gagal mengambil data dari database.";
+    if (container) {
+      container.innerHTML = `
+        <div class="empty">
+          Tidak dapat terhubung ke database Supabase.
+          <br><br>
+          Periksa Publishable Key dan RLS tabel dokumen.
+        </div>
+      `;
     }
 
     if (empty) {
-      empty.hidden = false;
-      empty.innerHTML = `
-        <p>
-          Tidak dapat terhubung ke database Supabase.
-        </p>
-        <p>
-          Periksa Publishable Key dan RLS tabel dokumen.
-        </p>
-      `;
+      empty.hidden = true;
     }
   }
 }
 
-/* ==============================
+
+/* =========================
+   FILE URL
+========================= */
+
+function makeFileUrl(path) {
+
+  if (!path) return "";
+
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://")
+  ) {
+    return path;
+  }
+
+  return `${SUPABASE_URL}/storage/v1/object/public/dokumen/${path}`;
+}
+
+
+/* =========================
    SETUP
-============================== */
+========================= */
 
 function setup() {
 
@@ -116,49 +135,54 @@ function setup() {
 
     if (!s) return;
 
-    s.innerHTML = i
-      ? CATS.map(c => `<option>${c[0]}</option>`).join("")
-      : `<option value="">Semua kategori</option>` +
-        CATS.map(c => `<option>${c[0]}</option>`).join("");
+    if (i === 0) {
+      s.innerHTML =
+        `<option value="">Semua kategori</option>` +
+        CATS.map(c => `<option value="${c[0]}">${c[0]}</option>`).join("");
+    } else {
+      s.innerHTML =
+        CATS.map(c => `<option value="${c[0]}">${c[0]}</option>`).join("");
+    }
+
   });
 
-  const yearSelect = document.getElementById("year");
+  const years = [
+    ...new Set(docs.map(d => d.year))
+  ].sort().reverse();
 
-  if (yearSelect) {
+  const year = document.getElementById("year");
 
-    const years = [
-      ...new Set(docs.map(d => d.year))
-    ].sort().reverse();
-
-    yearSelect.innerHTML =
+  if (year) {
+    year.innerHTML =
       `<option value="">Semua tahun</option>` +
-      years.map(y => `<option>${y}</option>`).join("");
+      years.map(y => `<option value="${y}">${y}</option>`).join("");
   }
 
   render();
 }
 
-/* ==============================
+
+/* =========================
    RENDER
-============================== */
+========================= */
 
 function render() {
 
-  const q =
-    document.getElementById("q")?.value.toLowerCase() || "";
+  const qEl = document.getElementById("q");
+  const catEl = document.getElementById("cat");
+  const yearEl = document.getElementById("year");
 
-  const c =
-    document.getElementById("cat")?.value || "";
-
-  const y =
-    document.getElementById("year")?.value || "";
+  const q = qEl ? qEl.value.toLowerCase() : "";
+  const c = catEl ? catEl.value : "";
+  const y = yearEl ? yearEl.value : "";
 
   const list = docs.filter(d =>
     (!q ||
       Object.values(d)
         .join(" ")
         .toLowerCase()
-        .includes(q)) &&
+        .includes(q)
+    ) &&
     (!c || d.cat === c) &&
     (!y || d.year === y)
   );
@@ -166,75 +190,63 @@ function render() {
   const count = document.getElementById("count");
 
   if (count) {
-    count.textContent =
-      `Menampilkan ${list.length} dokumen`;
+    count.textContent = `Menampilkan ${list.length} dokumen`;
   }
 
-  const docsEl = document.getElementById("docs");
+  const container = document.getElementById("docs");
 
-  if (docsEl) {
+  if (!container) return;
 
-    docsEl.innerHTML = list.map(d => {
+  container.innerHTML = list.map(d => `
+    <article class="doc">
 
-      const index = docs.indexOf(d);
+      <span class="tag">
+        ${esc(d.cat).toUpperCase()} · ${esc(d.year)}
+      </span>
 
-      return `
-        <article class="doc">
+      <h3>${esc(d.title)}</h3>
 
-          <span class="tag">
-            ${esc(d.cat).toUpperCase()} · ${esc(d.year)}
-          </span>
+      <p>${esc(d.desc)}</p>
 
-          <h3>${esc(d.title)}</h3>
+      <div class="meta">
+        ${esc(d.number)}
+      </div>
 
-          <p>${esc(d.desc)}</p>
+      <div class="doc-actions">
 
-          <div class="meta">
-            ${esc(d.number)}
-          </div>
+        <button
+          class="open"
+          onclick="openDoc(${d.id})">
+          Detail
+        </button>
 
-          <div class="doc-actions">
-
+        ${
+          d.url
+          ? `
             <button
-              class="open"
-              onclick="openDoc(${index})">
-              Detail
+              onclick="window.open('${escAttr(d.url)}','_blank')">
+              Buka/Download
             </button>
+          `
+          : `
+            <button
+              onclick="alert('Belum ada file untuk dokumen ini.')">
+              File
+            </button>
+          `
+        }
 
-            ${
-              d.url
-              ? `
-                <button
-                  onclick="window.open('${escAttr(d.url)}','_blank')">
-                  Buka/Download
-                </button>
-              `
-              : `
-                <button
-                  onclick="alert('File belum tersedia.')">
-                  File
-                </button>
-              `
-            }
+      </div>
 
-          </div>
+    </article>
+  `).join("");
 
-        </article>
-      `;
-
-    }).join("");
-  }
-
-  const empty = document.getElementById("empty");
-
-  if (empty) {
-    empty.hidden = list.length > 0;
-  }
 }
 
-/* ==============================
-   FILTER
-============================== */
+
+/* =========================
+   CATEGORY
+========================= */
 
 function pick(c) {
 
@@ -244,22 +256,25 @@ function pick(c) {
     cat.value = c;
   }
 
-  document
-    .getElementById("dokumen")
-    ?.scrollIntoView({
+  const dokumen = document.getElementById("dokumen");
+
+  if (dokumen) {
+    dokumen.scrollIntoView({
       behavior: "smooth"
     });
+  }
 
   render();
 }
 
-/* ==============================
+
+/* =========================
    DETAIL
-============================== */
+========================= */
 
-function openDoc(i) {
+function openDoc(id) {
 
-  const d = docs[i];
+  const d = docs.find(x => x.id === id);
 
   if (!d) return;
 
@@ -279,7 +294,8 @@ function openDoc(i) {
     <div style="
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:8px">
+      gap:8px
+    ">
 
       <div>
         <b>Nomor</b><br>
@@ -326,21 +342,27 @@ function openDoc(i) {
 
   document.getElementById("modalBody").innerHTML = body;
 
-  document
-    .getElementById("modal")
-    .classList.add("on");
+  document.getElementById("modal").classList.add("on");
 }
+
+
+/* =========================
+   CLOSE MODAL
+========================= */
 
 function closeModal() {
 
   document
     .getElementById("modal")
-    .classList.remove("on");
+    .classList
+    .remove("on");
+
 }
 
-/* ==============================
+
+/* =========================
    ESCAPE HTML
-============================== */
+========================= */
 
 function esc(s) {
 
@@ -354,15 +376,19 @@ function esc(s) {
       "'": "&#39;"
     }[m])
   );
+
 }
+
 
 function escAttr(s) {
 
   return esc(s).replace(/`/g, "&#96;");
+
 }
 
-/* ==============================
+
+/* =========================
    START
-============================== */
+========================= */
 
 loadDocs();
