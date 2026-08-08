@@ -8,30 +8,27 @@ const CATS = [
   ["Sertifikat Pelatihan", "🏅", "Arsip sertifikat dan verifikasi peserta"]
 ];
 
-/* ================================
+/* ==============================
    SUPABASE
-================================ */
+============================== */
 
-const SUPABASE_URL = "https://trixvdnjijuzxcqqlyyp.supabase.co";
+const SUPABASE_URL =
+  "https://trixvdnjijuzxcqqlyyp.supabase.co";
 
-/*
-  TEMPEL PUBLISHABLE KEY YANG TADI SUDAH KAMU COPY
-  DI DALAM TANDA KUTIP DI BAWAH.
+const SUPABASE_KEY =
+  "sb_publishable_QxnF1iLbgs-meSBDLLZXww_eF1zZaZB";
 
-  JANGAN gunakan Secret key.
-*/
-const SUPABASE_KEY = "sb_publishable_QxnF1iLbgs-meSBDLLZXww_eF1zZaZB";
+const TABLE_URL =
+  `${SUPABASE_URL}/rest/v1/dokumen`;
 
-const TABLE_URL = `${SUPABASE_URL}/rest/v1/dokumen`;
-
-const STORAGE_URL = `${SUPABASE_URL}/storage/v1/object/public/dokumen`;
+const STORAGE_URL =
+  `${SUPABASE_URL}/storage/v1/object/public/dokumen`;
 
 let docs = [];
 
-
-/* ================================
-   LOAD DATA DARI SUPABASE
-================================ */
+/* ==============================
+   AMBIL DATA SUPABASE
+============================== */
 
 async function loadDocs() {
 
@@ -48,7 +45,7 @@ async function loadDocs() {
     );
 
     if (!response.ok) {
-      throw new Error(`Supabase error ${response.status}`);
+      throw new Error(`Supabase HTTP ${response.status}`);
     }
 
     const data = await response.json();
@@ -60,52 +57,41 @@ async function loadDocs() {
       year: String(d.tahun),
       number: d.id ? `DOC-${String(d.id).padStart(4, "0")}` : "—",
       desc: d.deskripsi || "",
-      url: d.file_path ? makeFileUrl(d.file_path) : "",
-      file_path: d.file_path || "",
-      created_at: d.created_at
+      url: d.file_path
+        ? `${STORAGE_URL}/${d.file_path}`
+        : ""
     }));
 
     setup();
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Supabase error:", error);
 
-    document.getElementById("count").textContent =
-      "Gagal mengambil data dari database.";
+    const count = document.getElementById("count");
+    const empty = document.getElementById("empty");
 
-    document.getElementById("docs").innerHTML = `
-      <div class="empty">
-        Tidak dapat terhubung ke database Supabase.
-        <br><br>
-        Periksa Publishable Key dan RLS tabel dokumen.
-      </div>
-    `;
+    if (count) {
+      count.textContent = "Gagal mengambil data dari database.";
+    }
 
+    if (empty) {
+      empty.hidden = false;
+      empty.innerHTML = `
+        <p>
+          Tidak dapat terhubung ke database Supabase.
+        </p>
+        <p>
+          Periksa Publishable Key dan RLS tabel dokumen.
+        </p>
+      `;
+    }
   }
-
 }
 
-
-/* ================================
-   STORAGE PUBLIC URL
-================================ */
-
-function makeFileUrl(path) {
-
-  if (!path) return "";
-
-  return `${STORAGE_URL}/${path
-    .split("/")
-    .map(part => encodeURIComponent(part))
-    .join("/")}`;
-
-}
-
-
-/* ================================
-   SETUP WEBSITE
-================================ */
+/* ==============================
+   SETUP
+============================== */
 
 function setup() {
 
@@ -116,150 +102,160 @@ function setup() {
     document.getElementById("newcat")
   ];
 
-  cats.innerHTML = CATS.map(c => `
-    <div class="cat-card" onclick="pick('${escAttr(c[0])}')">
-      <div class="cat-icon">${c[1]}</div>
-      <h3>${esc(c[0])}</h3>
-      <p>${esc(c[2])}</p>
-    </div>
-  `).join("");
+  if (cats) {
+    cats.innerHTML = CATS.map(c => `
+      <div class="cat-card" onclick="pick('${c[0]}')">
+        <div class="cat-icon">${c[1]}</div>
+        <h3>${c[0]}</h3>
+        <p>${c[2]}</p>
+      </div>
+    `).join("");
+  }
 
   selects.forEach((s, i) => {
 
     if (!s) return;
 
-    s.innerHTML =
-      (i
-        ? ""
-        : `<option value="">Semua kategori</option>`
-      ) +
-      CATS.map(c =>
-        `<option value="${escAttr(c[0])}">${esc(c[0])}</option>`
-      ).join("");
-
+    s.innerHTML = i
+      ? CATS.map(c => `<option>${c[0]}</option>`).join("")
+      : `<option value="">Semua kategori</option>` +
+        CATS.map(c => `<option>${c[0]}</option>`).join("");
   });
 
-  const years = [
-    ...new Set(
-      docs
-        .map(d => d.year)
-        .filter(Boolean)
-    )
-  ].sort().reverse();
+  const yearSelect = document.getElementById("year");
 
-  document.getElementById("year").innerHTML =
-    `<option value="">Semua tahun</option>` +
-    years.map(y => `<option value="${escAttr(y)}">${esc(y)}</option>`).join("");
+  if (yearSelect) {
+
+    const years = [
+      ...new Set(docs.map(d => d.year))
+    ].sort().reverse();
+
+    yearSelect.innerHTML =
+      `<option value="">Semua tahun</option>` +
+      years.map(y => `<option>${y}</option>`).join("");
+  }
 
   render();
-
 }
 
-
-/* ================================
-   RENDER DOKUMEN
-================================ */
+/* ==============================
+   RENDER
+============================== */
 
 function render() {
 
-  const q = document.getElementById("q").value.toLowerCase().trim();
-  const c = document.getElementById("cat").value;
-  const y = document.getElementById("year").value;
+  const q =
+    document.getElementById("q")?.value.toLowerCase() || "";
 
-  const list = docs.filter(d => {
+  const c =
+    document.getElementById("cat")?.value || "";
 
-    const searchable = [
-      d.title,
-      d.cat,
-      d.year,
-      d.desc,
-      d.number
-    ]
-      .join(" ")
-      .toLowerCase();
+  const y =
+    document.getElementById("year")?.value || "";
 
-    return (
-      (!q || searchable.includes(q)) &&
-      (!c || d.cat === c) &&
-      (!y || d.year === y)
-    );
+  const list = docs.filter(d =>
+    (!q ||
+      Object.values(d)
+        .join(" ")
+        .toLowerCase()
+        .includes(q)) &&
+    (!c || d.cat === c) &&
+    (!y || d.year === y)
+  );
 
-  });
+  const count = document.getElementById("count");
 
-  document.getElementById("count").textContent =
-    `Menampilkan ${list.length} dokumen`;
+  if (count) {
+    count.textContent =
+      `Menampilkan ${list.length} dokumen`;
+  }
 
-  document.getElementById("docs").innerHTML = list.map(d => {
+  const docsEl = document.getElementById("docs");
 
-    const index = docs.indexOf(d);
+  if (docsEl) {
 
-    return `
-      <article class="doc">
+    docsEl.innerHTML = list.map(d => {
 
-        <span class="tag">
-          ${esc(d.cat || "UMUM").toUpperCase()} · ${esc(d.year || "")}
-        </span>
+      const index = docs.indexOf(d);
 
-        <h3>${esc(d.title)}</h3>
+      return `
+        <article class="doc">
 
-        <p>${esc(d.desc || "")}</p>
+          <span class="tag">
+            ${esc(d.cat).toUpperCase()} · ${esc(d.year)}
+          </span>
 
-        <div class="meta">
-          ${esc(d.number || "—")}
-        </div>
+          <h3>${esc(d.title)}</h3>
 
-        <div class="doc-actions">
+          <p>${esc(d.desc)}</p>
 
-          <button class="open" onclick="openDoc(${index})">
-            Detail
-          </button>
+          <div class="meta">
+            ${esc(d.number)}
+          </div>
 
-          ${
-            d.url
+          <div class="doc-actions">
+
+            <button
+              class="open"
+              onclick="openDoc(${index})">
+              Detail
+            </button>
+
+            ${
+              d.url
               ? `
-                <button onclick="window.open('${escAttr(d.url)}','_blank')">
+                <button
+                  onclick="window.open('${escAttr(d.url)}','_blank')">
                   Buka/Download
                 </button>
               `
               : `
-                <button onclick="alert('File belum tersedia.')">
+                <button
+                  onclick="alert('File belum tersedia.')">
                   File
                 </button>
               `
-          }
+            }
 
-        </div>
+          </div>
 
-      </article>
-    `;
+        </article>
+      `;
 
-  }).join("");
+    }).join("");
+  }
 
-  document.getElementById("empty").hidden = list.length > 0;
+  const empty = document.getElementById("empty");
 
+  if (empty) {
+    empty.hidden = list.length > 0;
+  }
 }
 
-
-/* ================================
-   FILTER KATEGORI
-================================ */
+/* ==============================
+   FILTER
+============================== */
 
 function pick(c) {
 
-  document.getElementById("cat").value = c;
+  const cat = document.getElementById("cat");
+
+  if (cat) {
+    cat.value = c;
+  }
 
   document
     .getElementById("dokumen")
-    .scrollIntoView({ behavior: "smooth" });
+    ?.scrollIntoView({
+      behavior: "smooth"
+    });
 
   render();
-
 }
 
-
-/* ================================
-   DETAIL DOKUMEN
-================================ */
+/* ==============================
+   DETAIL
+============================== */
 
 function openDoc(i) {
 
@@ -268,61 +264,63 @@ function openDoc(i) {
   if (!d) return;
 
   const body = `
-    <span class="tag">${esc(d.cat || "Umum")}</span>
+    <span class="tag">
+      ${esc(d.cat)}
+    </span>
 
-    <h2>${esc(d.title)}</h2>
+    <h2>
+      ${esc(d.title)}
+    </h2>
 
     <p style="color:#6d7d77">
-      ${esc(d.desc || "")}
+      ${esc(d.desc)}
     </p>
 
     <div style="
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:8px
-    ">
+      gap:8px">
 
       <div>
-        <b>ID</b><br>
-        ${esc(String(d.id ?? "—"))}
+        <b>Nomor</b><br>
+        ${esc(d.number)}
       </div>
 
       <div>
         <b>Tahun</b><br>
-        ${esc(d.year || "—")}
+        ${esc(d.year)}
       </div>
 
       <div>
         <b>Kategori</b><br>
-        ${esc(d.cat || "—")}
+        ${esc(d.cat)}
       </div>
 
       <div>
         <b>Akses</b><br>
-        ${d.url ? "Publik" : "Belum tersedia"}
+        ${d.url ? "Publik" : "Belum ditautkan"}
       </div>
 
     </div>
 
     ${
       d.url
-        ? `
-          <p style="margin-top:18px">
-            <a
-              class="btn primary"
-              href="${escAttr(d.url)}"
-              target="_blank"
-              rel="noopener"
-            >
-              Buka Dokumen →
-            </a>
-          </p>
-        `
-        : `
-          <p style="margin-top:18px;color:#a06b20">
-            File PDF belum ditautkan ke dokumen ini.
-          </p>
-        `
+      ? `
+        <p style="margin-top:18px">
+          <a
+            class="btn primary"
+            href="${escAttr(d.url)}"
+            target="_blank"
+            rel="noopener">
+            Buka Dokumen →
+          </a>
+        </p>
+      `
+      : `
+        <p style="margin-top:18px;color:#a06b20">
+          File belum tersedia.
+        </p>
+      `
     }
   `;
 
@@ -331,62 +329,18 @@ function openDoc(i) {
   document
     .getElementById("modal")
     .classList.add("on");
-
 }
-
-
-/* ================================
-   MODAL
-================================ */
 
 function closeModal() {
 
   document
     .getElementById("modal")
     .classList.remove("on");
-
 }
 
-
-/* ================================
-   EXPORT DATA
-================================ */
-
-function exportData() {
-
-  const blob = new Blob(
-    [JSON.stringify(docs, null, 2)],
-    { type: "application/json" }
-  );
-
-  const a = document.createElement("a");
-
-  a.href = URL.createObjectURL(blob);
-
-  a.download = "katalog-repositori-sdmpk.json";
-
-  a.click();
-
-}
-
-
-/* ================================
-   IMPORT DATA
-================================ */
-
-function importData(e) {
-
-  alert(
-    "Import katalog lokal belum digunakan. " +
-    "Data utama sekarang berasal dari Supabase."
-  );
-
-}
-
-
-/* ================================
+/* ==============================
    ESCAPE HTML
-================================ */
+============================== */
 
 function esc(s) {
 
@@ -400,19 +354,15 @@ function esc(s) {
       "'": "&#39;"
     }[m])
   );
-
 }
-
 
 function escAttr(s) {
 
   return esc(s).replace(/`/g, "&#96;");
-
 }
 
-
-/* ================================
-   MULAI
-================================ */
+/* ==============================
+   START
+============================== */
 
 loadDocs();
