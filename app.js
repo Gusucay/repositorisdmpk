@@ -13,7 +13,6 @@ const CATS = [
 ========================= */
 
 const SUPABASE_URL = "https://trixvdnjiuzxcqlyyp.supabase.co";
-
 /*
    PENTING:
    Gunakan Publishable Key.
