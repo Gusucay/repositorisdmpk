@@ -38,14 +38,25 @@ async function loadDocs() {
   try {
 
     const response = await fetch(
-      `${TABLE_URL}?select=id,judul,kategori,tahun,deskripsi,file_path,created_at&order=id.asc`,
-      {
-        method: "GET",
-        headers: {
-          "apikey": SUPABASE_KEY,
-        }
-      }
-    );
+  `${TABLE_URL}?select=id,judul,kategori,tahun,deskripsi,file_path,created_at&order=id.asc`,
+  {
+    method: "GET",
+    headers: {
+      "apikey": SUPABASE_KEY,
+      "Content-Type": "application/json"
+    }
+  }
+);
+
+const responseText = await response.text();
+
+if (!response.ok) {
+  throw new Error(
+    `Supabase ${response.status}: ${responseText}`
+  );
+}
+
+const data = JSON.parse(responseText);
 
     if (!response.ok) {
       const errorText = await response.text();
