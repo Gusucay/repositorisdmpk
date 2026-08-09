@@ -135,6 +135,7 @@ function setup() {
 
       <div class="cat-top">
         <div class="cat-icon">${c[1]}</div>
+
         <span class="cat-number">
           ${String(CATS.indexOf(c) + 1).padStart(2, "0")}
         </span>
@@ -152,8 +153,6 @@ function setup() {
     </article>
   `).join("");
 }
-  }
-
   selects.forEach((s, i) => {
 
     if (!s) return;
