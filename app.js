@@ -130,13 +130,28 @@ function setup() {
   ];
 
   if (cats) {
-    cats.innerHTML = CATS.map(c => `
-      <div class="cat-card" onclick="pick('${c[0]}')">
+  cats.innerHTML = CATS.map(c => `
+    <article class="cat-card" onclick="pick('${escAttr(c[0])}')">
+
+      <div class="cat-top">
         <div class="cat-icon">${c[1]}</div>
-        <h3>${c[0]}</h3>
-        <p>${c[2]}</p>
+        <span class="cat-number">
+          ${String(CATS.indexOf(c) + 1).padStart(2, "0")}
+        </span>
       </div>
-    `).join("");
+
+      <div class="cat-content">
+        <h3>${esc(c[0])}</h3>
+        <p>${esc(c[2])}</p>
+      </div>
+
+      <div class="cat-arrow" aria-hidden="true">
+        →
+      </div>
+
+    </article>
+  `).join("");
+}
   }
 
   selects.forEach((s, i) => {
