@@ -646,5 +646,821 @@ footer .container {
 
   footer .container {
     display: block;
+  }/* =========================================================
+   PREMIUM INSTITUTIONAL REDESIGN
+   PUSAT DOKUMEN PUSBANGKOM SDMPK
+   ========================================================= */
+
+/* ---------- GLOBAL POLISH ---------- */
+
+:root {
+  --green: #176b4d;
+  --green-dark: #0b3d2d;
+  --green-deep: #082f24;
+  --green-light: #eaf5ef;
+  --cream: #f7faf8;
+  --text: #12382d;
+  --muted: #6b7d77;
+  --line: #dce8e2;
+  --white: #ffffff;
+
+  --shadow-soft:
+    0 12px 35px rgba(16, 67, 49, 0.08);
+
+  --shadow-card:
+    0 22px 55px rgba(16, 67, 49, 0.12);
+}
+
+body {
+  background: #ffffff;
+  color: var(--text);
+}
+
+::selection {
+  background: var(--green);
+  color: white;
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.top {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(220, 232, 226, 0.85);
+}
+
+.nav {
+  height: 78px;
+}
+
+.brandmark {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  box-shadow: 0 8px 22px rgba(23, 107, 77, 0.18);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.brand:hover .brandmark {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(23, 107, 77, 0.25);
+}
+
+nav a {
+  position: relative;
+  padding: 8px 0;
+}
+
+nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 0;
+  height: 2px;
+  background: var(--green);
+  transition: right .25s ease;
+}
+
+nav a:hover::after {
+  right: 0;
+}
+
+.ghost {
+  transition:
+    background .2s ease,
+    color .2s ease,
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.ghost:hover {
+  background: var(--green);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(23, 107, 77, .18);
+}
+
+
+/* =========================================================
+   HERO — LEBIH PADAT & PREMIUM
+   ========================================================= */
+
+.hero {
+  min-height: 0;
+  background:
+    radial-gradient(
+      circle at 78% 25%,
+      rgba(80, 165, 126, .16),
+      transparent 32%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(216, 238, 228, .55),
+      transparent 28%
+    ),
+    linear-gradient(
+      135deg,
+      #f5faf7 0%,
+      #ffffff 58%,
+      #eef8f3 100%
+    );
+}
+
+.hero-grid {
+  min-height: 570px;
+  padding-top: 48px;
+  padding-bottom: 62px;
+  gap: 55px;
+}
+
+.hero h1 {
+  max-width: 680px;
+  font-size: clamp(46px, 5.2vw, 72px);
+  line-height: .98;
+  letter-spacing: -.065em;
+}
+
+.hero h1 em {
+  background: linear-gradient(
+    135deg,
+    #176b4d,
+    #2d815f
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  max-width: 570px;
+  margin-top: 25px;
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  margin-top: 5px;
+}
+
+.btn {
+  min-height: 50px;
+  padding: 0 22px;
+  border-radius: 12px;
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    background .2s ease;
+}
+
+.btn.primary {
+  box-shadow:
+    0 12px 28px rgba(23, 107, 77, .20);
+}
+
+.btn.primary:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 17px 34px rgba(23, 107, 77, .27);
+}
+
+.btn.light:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-soft);
+}
+
+
+/* =========================================================
+   HERO PHOTO
+   ========================================================= */
+
+.hero-visual {
+  min-height: 450px;
+}
+
+.hero-photo {
+  width: min(520px, 100%);
+  height: 410px;
+  object-fit: cover;
+  border-radius: 30px;
+
+  border: 7px solid rgba(255,255,255,.78);
+
+  box-shadow:
+    0 35px 80px rgba(11, 61, 45, .20),
+    0 5px 20px rgba(11, 61, 45, .08);
+
+  transform: rotate(0deg);
+  transition:
+    transform .5s ease,
+    box-shadow .5s ease;
+}
+
+.hero-photo:hover {
+  transform: translateY(-5px) scale(1.01);
+
+  box-shadow:
+    0 42px 90px rgba(11, 61, 45, .24),
+    0 8px 25px rgba(11, 61, 45, .10);
+}
+
+
+/* =========================================================
+   FLOATING CARDS
+   ========================================================= */
+
+.floating {
+  min-width: 225px;
+  padding: 15px 16px;
+
+  background: rgba(255,255,255,.90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,.85);
+
+  box-shadow:
+    0 20px 45px rgba(17, 67, 50, .16);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.floating:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 25px 55px rgba(17, 67, 50, .22);
+}
+
+.floating-icon {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+  background: var(--green-light);
+
+  font-size: 21px;
+}
+
+.arrow {
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+.floating:hover .arrow {
+  transform: translateX(3px);
+  background: var(--green);
+  color: white;
+}
+
+.f1 {
+  top: 42px;
+  left: -5px;
+}
+
+.f2 {
+  right: -18px;
+  top: 165px;
+}
+
+.f3 {
+  left: 18px;
+  bottom: 22px;
+}
+
+
+/* =========================================================
+   SEARCH BAR — LEBIH PREMIUM
+   ========================================================= */
+
+.search-wrap {
+  margin-top: -38px;
+}
+
+.search {
+  min-height: 74px;
+  padding: 8px 9px 8px 24px;
+
+  border-radius: 20px;
+
+  border: 1px solid rgba(211, 226, 219, .95);
+
+  box-shadow:
+    0 20px 55px rgba(15, 65, 47, .12);
+
+  transition:
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.search:focus-within {
+  border-color: rgba(23,107,77,.35);
+
+  box-shadow:
+    0 22px 60px rgba(15, 65, 47, .16),
+    0 0 0 4px rgba(23,107,77,.06);
+}
+
+.search input {
+  font-size: 15px;
+}
+
+.search button {
+  min-width: 72px;
+  min-height: 54px;
+  border-radius: 13px;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+}
+
+.search button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 10px 25px rgba(23,107,77,.20);
+}
+
+
+/* =========================================================
+   SECTION SPACING
+   ========================================================= */
+
+section {
+  padding: 78px 0;
+}
+
+#koleksi {
+  background:
+    linear-gradient(
+      180deg,
+      #ffffff 0%,
+      #fbfdfc 100%
+    );
+}
+
+.section-head {
+  margin-bottom: 34px;
+}
+
+.section-head h2 {
+  font-size: clamp(30px, 4vw, 42px);
+  line-height: 1.05;
+}
+
+.section-head p {
+  font-size: 14px;
+}
+
+
+/* =========================================================
+   CATEGORY — 4 KOLOM DESKTOP
+   ========================================================= */
+
+.cats {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.cat {
+  position: relative;
+  min-height: 175px;
+  padding: 23px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+  border: 1px solid #dfeae5;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f8fbf9
+    );
+
+  box-shadow:
+    0 4px 15px rgba(20, 70, 50, .03);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.cat::after {
+  content: "";
+  position: absolute;
+
+  width: 100px;
+  height: 100px;
+
+  right: -45px;
+  bottom: -45px;
+
+  border-radius: 50%;
+
+  background: rgba(23,107,77,.05);
+}
+
+.cat:hover {
+  transform: translateY(-7px);
+
+  border-color: rgba(23,107,77,.25);
+
+  box-shadow:
+    0 20px 45px rgba(18, 68, 50, .11);
+}
+
+.cat-icon {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 20px;
+
+  border-radius: 15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #edf8f2,
+      #e1f1e9
+    );
+
+  box-shadow:
+    inset 0 0 0 1px rgba(23,107,77,.04);
+}
+
+.cat h3 {
+  font-size: 16px;
+}
+
+.cat p {
+  font-size: 12px;
+}
+
+.cat-count {
+  margin-top: 14px;
+}
+
+
+/* =========================================================
+   DOKUMEN
+   ========================================================= */
+
+#dokumen {
+  background:
+    linear-gradient(
+      180deg,
+      #f5f9f7,
+      #eef5f1
+    );
+}
+
+.docs-grid {
+  gap: 20px;
+}
+
+.doc-card {
+  border-radius: 20px;
+  padding: 25px;
+
+  box-shadow:
+    0 4px 18px rgba(18, 68, 50, .04);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.doc-card:hover {
+  transform: translateY(-6px);
+
+  border-color: rgba(23,107,77,.22);
+
+  box-shadow:
+    0 22px 45px rgba(18,68,50,.12);
+}
+
+
+/* =========================================================
+   ADMIN
+   ========================================================= */
+
+#admin {
+  background: #ffffff;
+}
+
+.admin-box {
+  border-radius: 26px;
+  padding: 38px;
+
+  box-shadow:
+    0 20px 60px rgba(20,60,45,.08);
+}
+
+.admin-box h2 {
+  font-size: 36px;
+}
+
+
+/* =========================================================
+   TENTANG
+   ========================================================= */
+
+#tentang {
+  background:
+    linear-gradient(
+      135deg,
+      #f5faf7,
+      #ffffff
+    );
+}
+
+.about {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.about h2 {
+  max-width: 700px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.about p {
+  max-width: 680px;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+footer {
+  background:
+    linear-gradient(
+      135deg,
+      #082f24,
+      #0b4432
+    );
+
+  padding: 52px 0;
+}
+
+footer .container {
+  align-items: center;
+}
+
+footer b {
+  font-size: 15px;
+  letter-spacing: .03em;
+}
+
+footer p {
+  color: rgba(216,232,225,.72);
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0);
   }
+
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.f1 {
+  animation: gentleFloat 5s ease-in-out infinite;
+}
+
+.f2 {
+  animation: gentleFloat 6s ease-in-out infinite;
+  animation-delay: .6s;
+}
+
+.f3 {
+  animation: gentleFloat 5.5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+
+  .hero-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px;
+  }
+
+  .hero h1 {
+    font-size: clamp(42px, 5vw, 58px);
+  }
+
+  .hero-photo {
+    height: 360px;
+  }
+
+  .floating {
+    min-width: 195px;
+  }
+
+  .f2 {
+    right: -5px;
+  }
+
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .container {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .nav {
+    height: 68px;
+  }
+
+  .ghost {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    min-height: auto;
+
+    padding-top: 55px;
+    padding-bottom: 65px;
+
+    gap: 35px;
+  }
+
+  .hero h1 {
+    font-size: 43px;
+    line-height: 1;
+  }
+
+  .hero p {
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .hero-visual {
+    min-height: 350px;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 310px;
+    border-radius: 23px;
+  }
+
+  .floating {
+    min-width: 170px;
+    padding: 11px 12px;
+    gap: 8px;
+  }
+
+  .floating-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+  }
+
+  .floating b {
+    font-size: 12px;
+  }
+
+  .floating small {
+    font-size: 10px;
+  }
+
+  .f1 {
+    left: -3px;
+    top: 5px;
+  }
+
+  .f2 {
+    right: -3px;
+    top: 110px;
+  }
+
+  .f3 {
+    left: 3px;
+    bottom: 0;
+  }
+
+  .search-wrap {
+    margin-top: -30px;
+  }
+
+  .search {
+    min-height: 62px;
+    padding-left: 16px;
+  }
+
+  .search button {
+    min-height: 46px;
+    padding: 0 15px;
+  }
+
+  section {
+    padding: 60px 0;
+  }
+
+  .section-head h2 {
+    font-size: 32px;
+  }
+
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .cat {
+    min-height: 165px;
+    padding: 17px;
+  }
+
+  .cat-icon {
+    width: 45px;
+    height: 45px;
+    margin-bottom: 14px;
+  }
+
+  .cat h3 {
+    font-size: 14px;
+  }
+
+  .admin-box {
+    padding: 25px 20px;
+  }
+
+  .admin-box h2 {
+    font-size: 30px;
+  }
+
+  footer {
+    padding: 40px 0;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 430px) {
+
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+
+  .cats {
+    grid-template-columns: 1fr;
+  }
+
+  .floating {
+    min-width: 155px;
+  }
+}
 }
