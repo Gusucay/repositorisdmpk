@@ -995,30 +995,49 @@ nav a:hover::after {
    SECTION SPACING
    ========================================================= */
 
-section {
-  padding: 78px 0;
+.stats-section {
+  padding: 0 0 70px;
+  background: #f7fbf9;
+  margin-top: -1px;
 }
 
-#koleksi {
-  background:
-    linear-gradient(
-      180deg,
-      #ffffff 0%,
-      #fbfdfc 100%
-    );
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  position: relative;
+  z-index: 5;
 }
 
-.section-head {
-  margin-bottom: 34px;
+.stat-card {
+  background: rgba(255,255,255,.96);
+  border: 1px solid rgba(23,92,67,.10);
+  border-radius: 20px;
+  padding: 26px 24px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(23,92,67,.08);
+  transition: all .25s ease;
 }
 
-.section-head h2 {
-  font-size: clamp(30px, 4vw, 42px);
-  line-height: 1.05;
+.stat-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(23,92,67,.14);
 }
 
-.section-head p {
-  font-size: 14px;
+.stat-card strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+  color: #176044;
+  margin-bottom: 9px;
+}
+
+.stat-card span {
+  color: #687c74;
+  font-size: 13px;
+  font-weight: 600;
+}
 }
 
 
@@ -1528,5 +1547,406 @@ footer p {
 
   .stat-card strong {
     font-size: 27px;
+  }
+}
+/* =====================================================
+   MODERN POLISH - PUSBANGKOM SDMPK
+   ===================================================== */
+
+/* HERO LEBIH PADAT & ELEGAN */
+.hero-grid {
+  min-height: 470px;
+  padding-top: 35px;
+  padding-bottom: 55px;
+}
+
+.hero h1 {
+  font-size: clamp(44px, 5vw, 64px);
+  line-height: .98;
+}
+
+.hero p {
+  max-width: 570px;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+/* FOTO HERO */
+.hero-photo {
+  width: 510px;
+  height: 380px;
+  border-radius: 30px;
+  object-fit: cover;
+  box-shadow:
+    0 25px 60px rgba(14, 68, 49, .18),
+    0 5px 20px rgba(0,0,0,.06);
+  transition: transform .4s ease, box-shadow .4s ease;
+}
+
+.hero-photo:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow:
+    0 35px 75px rgba(14, 68, 49, .23),
+    0 8px 25px rgba(0,0,0,.08);
+}
+
+/* SEARCH */
+.search-wrap {
+  margin-top: -35px;
+}
+
+.search {
+  min-height: 64px;
+  border-radius: 18px;
+  box-shadow:
+    0 15px 45px rgba(20,60,45,.10);
+}
+
+/* =====================================================
+   KATEGORI
+   JS menggunakan .cat-card
+   ===================================================== */
+
+.cats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.cat-card {
+  position: relative;
+  min-height: 170px;
+  padding: 24px;
+  background: rgba(255,255,255,.96);
+  border: 1px solid #e1ebe6;
+  border-radius: 20px;
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.cat-card::after {
+  content: "→";
+  position: absolute;
+  right: 20px;
+  bottom: 18px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-light);
+  color: var(--green);
+  font-weight: 800;
+  opacity: .8;
+  transition: .25s ease;
+}
+
+.cat-card:hover {
+  transform: translateY(-7px);
+  border-color: #b9d8ca;
+  box-shadow:
+    0 18px 45px rgba(20,60,45,.11);
+}
+
+.cat-card:hover::after {
+  transform: translateX(4px);
+  background: var(--green);
+  color: white;
+}
+
+.cat-card .cat-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  border-radius: 15px;
+  background: var(--green-light);
+  font-size: 25px;
+}
+
+.cat-card h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  color: var(--text);
+}
+
+.cat-card p {
+  max-width: 220px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =====================================================
+   DOKUMEN
+   JS menggunakan .doc
+   ===================================================== */
+
+#docs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.doc {
+  position: relative;
+  padding: 24px;
+  background: white;
+  border: 1px solid #e1ebe6;
+  border-radius: 20px;
+  overflow: hidden;
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.doc::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--green);
+  opacity: 0;
+  transition: .25s ease;
+}
+
+.doc:hover {
+  transform: translateY(-5px);
+  border-color: #c5ddd2;
+  box-shadow:
+    0 18px 45px rgba(20,60,45,.10);
+}
+
+.doc:hover::before {
+  opacity: 1;
+}
+
+.doc .tag {
+  display: inline-flex;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--green-light);
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .05em;
+}
+
+.doc h3 {
+  margin: 16px 0 9px;
+  font-size: 17px;
+  line-height: 1.35;
+  color: var(--text);
+}
+
+.doc p {
+  min-height: 58px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.doc .meta {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #edf2ef;
+  color: #84948e;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.doc-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.doc-actions button {
+  flex: 1;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid #d7e5df;
+  border-radius: 10px;
+  background: white;
+  color: var(--green);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.doc-actions button:hover {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+.doc-actions .open {
+  background: var(--green);
+  color: white;
+  border-color: var(--green);
+}
+
+/* =====================================================
+   SECTION DOKUMEN
+   ===================================================== */
+
+#dokumen {
+  background:
+    linear-gradient(
+      180deg,
+      #f5faf7 0%,
+      #ffffff 100%
+    );
+}
+
+#dokumen .section-head {
+  margin-bottom: 30px;
+}
+
+/* FILTER */
+.filters {
+  display: flex;
+  gap: 10px;
+}
+
+.filters select {
+  min-height: 42px;
+  padding: 0 14px;
+  border: 1px solid #dce8e2;
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+
+.filters select:focus {
+  border-color: var(--green);
+}
+
+/* =====================================================
+   TENTANG
+   ===================================================== */
+
+.about {
+  display: grid;
+  grid-template-columns: .9fr 1.1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.about h2 {
+  max-width: 600px;
+  margin: 5px 0 0;
+  font-size: 38px;
+  line-height: 1.1;
+  letter-spacing: -.04em;
+}
+
+.about p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =====================================================
+   ANIMASI HALUS
+   ===================================================== */
+
+.hero > .container > div:first-child,
+.hero-visual {
+  animation: fadeUp .7s ease both;
+}
+
+.hero-visual {
+  animation-delay: .12s;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 1050px) {
+
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #docs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+}
+
+@media (max-width: 700px) {
+
+  .hero-grid {
+    min-height: auto;
+    padding-top: 45px;
+    padding-bottom: 55px;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+  }
+
+  .hero-photo {
+    width: 100%;
+    height: 300px;
+  }
+
+  .cats {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .cat-card {
+    min-height: 150px;
+    padding: 18px;
+  }
+
+  #docs {
+    grid-template-columns: 1fr;
+  }
+
+  .about h2 {
+    font-size: 30px;
+  }
+
+  .filters {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .filters select {
+    width: 100%;
   }
 }
