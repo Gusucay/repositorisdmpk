@@ -3095,3 +3095,184 @@ footer a {
     text-align: center;
   }
 }
+/* =================================
+   MODERN CATEGORY CARDS
+================================= */
+
+.cats {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.cat-card {
+  position: relative;
+  min-height: 235px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: #ffffff;
+  border: 1px solid #dce9e3;
+  border-radius: 24px;
+
+  cursor: pointer;
+  overflow: hidden;
+
+  box-shadow: 0 10px 30px rgba(20, 67, 51, 0.05);
+
+  transition:
+    transform .3s ease,
+    box-shadow .3s ease,
+    border-color .3s ease;
+}
+
+.cat-card::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  right: -75px;
+  bottom: -75px;
+
+  border-radius: 50%;
+  background: #edf7f2;
+
+  transition: transform .4s ease;
+}
+
+.cat-card:hover {
+  transform: translateY(-8px);
+  border-color: #b9d8ca;
+  box-shadow: 0 22px 45px rgba(20, 67, 51, 0.12);
+}
+
+.cat-card:hover::before {
+  transform: scale(1.5);
+}
+
+
+/* TOP */
+
+.cat-top {
+  position: relative;
+  z-index: 2;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.cat-icon {
+  width: 56px;
+  height: 56px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 17px;
+
+  background: #eaf5f0;
+
+  font-size: 25px;
+
+  transition: transform .3s ease;
+}
+
+.cat-card:hover .cat-icon {
+  transform: scale(1.08) rotate(-3deg);
+}
+
+.cat-number {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+  color: #9aaca5;
+}
+
+
+/* CONTENT */
+
+.cat-content {
+  position: relative;
+  z-index: 2;
+
+  margin-top: 25px;
+}
+
+.cat-content h3 {
+  margin: 0 0 8px;
+
+  color: #153f32;
+
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.cat-content p {
+  max-width: 235px;
+  margin: 0;
+
+  color: #71827c;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* ARROW */
+
+.cat-arrow {
+  position: absolute;
+  z-index: 3;
+
+  right: 22px;
+  bottom: 22px;
+
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: #f0f7f4;
+  color: #277153;
+
+  font-size: 18px;
+  font-weight: 800;
+
+  transition:
+    background .25s ease,
+    color .25s ease,
+    transform .25s ease;
+}
+
+.cat-card:hover .cat-arrow {
+  background: #277153;
+  color: #ffffff;
+  transform: translateX(4px);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1050px) {
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cats {
+    grid-template-columns: 1fr;
+  }
+
+  .cat-card {
+    min-height: 205px;
+  }
+}
