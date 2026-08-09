@@ -88,11 +88,28 @@
 </section>
 <div class="container search-wrap"><div class="search"><span>⌕</span><input id="q" oninput="render()" placeholder="Cari judul, kategori, tahun, atau kata kunci..."><button onclick="document.getElementById('q').focus()">Cari</button></div></div>
 
-<section id="koleksi"><div class="container">
-<div class="section-head"><div><span class="eyebrow">KOLEKSI</span><h2>7 Kategori Utama</h2><p>Dokumen tersusun berdasarkan jenis agar mudah ditemukan.</p></div></div>
-<div class="cats" id="cats"></div>
-</div></section>
+<section id="koleksi" class="collection-section">
+  <div class="container">
 
+    <div class="section-head collection-head">
+      <div>
+        <span class="eyebrow">KOLEKSI</span>
+        <h2>Jelajahi Koleksi Dokumen</h2>
+        <p>
+          Temukan berbagai bahan pengembangan kompetensi SDMPK
+          yang tersusun secara rapi dan mudah diakses.
+        </p>
+      </div>
+
+      <a href="#dokumen" class="section-link">
+        Lihat semua dokumen →
+      </a>
+    </div>
+
+    <div class="cats" id="cats"></div>
+
+  </div>
+</section>
 <section id="dokumen" class="soft"><div class="container">
 <div class="section-head"><div><span class="eyebrow">REPOSITORI</span><h2>Semua Dokumen</h2><p id="count"></p></div>
 <div class="filters"><select id="cat" onchange="render()"><option value="">Semua kategori</option></select><select id="year" onchange="render()"><option value="">Semua tahun</option></select></div></div>
