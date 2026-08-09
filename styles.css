@@ -1950,3 +1950,167 @@ footer p {
     width: 100%;
   }
 }
+/* =====================================================
+   FINAL HERO / LANDING PAGE POLISH
+   ===================================================== */
+
+.hero-grid {
+  min-height: 0;
+  padding-top: 75px;
+  padding-bottom: 85px;
+}
+
+/* Buat hero lebih proporsional */
+.hero-visual {
+  min-height: 390px;
+}
+
+.hero-photo {
+  width: 500px;
+  height: 380px;
+}
+
+/* Search lebih dekat dengan konten utama */
+.search-wrap {
+  margin-top: -32px;
+  margin-bottom: 10px;
+}
+
+/* =====================================================
+   STATISTIK
+   ===================================================== */
+
+.stats-section {
+  padding: 28px 0 35px;
+  background: #f7faf8;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.stat-card {
+  padding: 25px 20px;
+  text-align: center;
+  background: rgba(255,255,255,.95);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(20,60,45,.06);
+  transition: .25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(20,60,45,.10);
+}
+
+.stat-card strong {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--green);
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+}
+
+.stat-card span {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =====================================================
+   KATEGORI
+   ===================================================== */
+
+#koleksi {
+  padding-top: 55px;
+}
+
+.cats {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.cat {
+  min-height: 175px;
+  padding: 22px;
+  border-radius: 20px;
+}
+
+.cat:hover {
+  transform: translateY(-7px);
+}
+
+/* =====================================================
+   DOKUMEN
+   ===================================================== */
+
+.soft {
+  background:
+    linear-gradient(
+      180deg,
+      #f7faf8 0%,
+      #ffffff 100%
+    );
+}
+
+#docs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* =====================================================
+   ABOUT
+   ===================================================== */
+
+#tentang {
+  background: #f7faf8;
+}
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media (max-width: 1050px) {
+
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  #docs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+
+  .hero-grid {
+    padding-top: 45px;
+    padding-bottom: 60px;
+  }
+
+  .hero-visual {
+    min-height: 340px;
+  }
+
+  .hero-photo {
+    height: 290px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cats,
+  #docs {
+    grid-template-columns: 1fr;
+  }
+}
