@@ -1464,3 +1464,69 @@ footer p {
   }
 }
 }
+/* =========================
+   STATISTIK REPOSITORI
+========================= */
+
+.stats-section {
+  padding: 20px 0 70px;
+  background: #f7fbf9;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.stat-card {
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(23,92,67,.12);
+  border-radius: 20px;
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: 0 12px 35px rgba(23,92,67,.07);
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 18px 40px rgba(23,92,67,.12);
+}
+
+.stat-card strong {
+  display: block;
+  font-size: 34px;
+  line-height: 1;
+  font-weight: 800;
+  color: #176044;
+  margin-bottom: 10px;
+}
+
+.stat-card span {
+  color: #687c74;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Mobile */
+@media (max-width: 800px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat-card {
+    padding: 22px 12px;
+  }
+
+  .stat-card strong {
+    font-size: 27px;
+  }
+}
