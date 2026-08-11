@@ -784,4 +784,5 @@ async function addDoc(event) {
   }
 }
 
+setup();
 loadDocs();
