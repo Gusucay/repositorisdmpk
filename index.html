@@ -10,7 +10,16 @@
 <header class="top">
   <div class="container nav">
     <a class="brand" href="#"><span class="brandmark">P</span><span><b>REPOSITORI SDMPK</b><small>Personal Digital Library</small></span></a>
-    <nav><a href="#koleksi">Koleksi</a><a href="#dokumen">Dokumen</a><a href="#tentang">Tentang</a></nav>
+   <nav class="category-menu">
+  <a href="#koleksi" onclick="pick('Modul')">Modul</a>
+  <a href="#koleksi" onclick="pick('Kurikulum')">Kurikulum</a>
+  <a href="#koleksi" onclick="pick('SOP')">SOP</a>
+  <a href="#koleksi" onclick="pick('Pedoman')">Pedoman</a>
+  <a href="#koleksi" onclick="pick('Juknis')">Juknis</a>
+  <a href="#koleksi" onclick="pick('Juklak')">Juklak</a>
+  <a href="#koleksi" onclick="pick('Sertifikat Pelatihan')">Sertifikat Pelatihan</a>
+  <a href="#koleksi" onclick="pick('Alumni Pelatihan')">Alumni Pelatihan</a>
+</nav>
     <button class="ghost" onclick="document.getElementById('admin').scrollIntoView({behavior:'smooth'})">Kelola File</button>
   </div>
 </header>
