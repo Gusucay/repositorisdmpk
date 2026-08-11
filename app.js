@@ -244,7 +244,7 @@ function render() {
     ? `
       <button
         class="btn primary"
-        onclick="previewExcel(${d.id})">
+       onclick="previewFile(${d.id})"
         Lihat File
       </button>
     `
@@ -410,18 +410,95 @@ async function previewDocument(id) {
     `;
   }
 }
-function previewExcel(id) {
+function previewFile(id) {
   const d = docs.find(x => x.id === id);
 
   if (!d) return;
 
-  const fileUrl = d.file_url || d.url || d.public_url;
+  const fileUrl = d.url;
 
   if (!fileUrl) {
-    alert("File Excel tidak tersedia.");
+    alert("File tidak tersedia.");
     return;
   }
 
+  const cleanUrl = fileUrl.split("?")[0];
+  const ext = cleanUrl.split(".").pop().toLowerCase();
+
+  // PDF
+  if (ext === "pdf") {
+    window.open(fileUrl, "_blank");
+    return;
+  }
+
+  // Gambar
+  if (["jpg", "jpeg", "png", "gif", "webp", "svg"].includes(ext)) {
+    window.open(fileUrl, "_blank");
+    return;
+  }
+
+  // Microsoft Office
+  if (
+    [
+      "xls",
+      "xlsx",
+      "xlsm",
+      "doc",
+      "docx",
+      "ppt",
+      "pptx"
+    ].includes(ext)
+  ) {
+    const viewer =
+      "https://docs.google.com/gview?embedded=1&url=" +
+      encodeURIComponent(fileUrl);
+
+    window.open(viewer, "_blank");
+    return;
+  }
+
+  // File lainnya
+  window.open(fileUrl, "_blank");
+}
+
+  const cleanUrl = fileUrl.split("?")[0];
+  const ext = cleanUrl.split(".").pop().toLowerCase();
+
+  // PDF
+  if (ext === "pdf") {
+    window.open(fileUrl, "_blank");
+    return;
+  }
+
+  // Gambar
+  if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext)) {
+    window.open(fileUrl, "_blank");
+    return;
+  }
+
+  // File Microsoft Office
+  if (
+    [
+      "doc",
+      "docx",
+      "xls",
+      "xlsx",
+      "ppt",
+      "pptx",
+      "csv"
+    ].includes(ext)
+  ) {
+    const viewer =
+      "https://docs.google.com/gview?embedded=1&url=" +
+      encodeURIComponent(fileUrl);
+
+    window.open(viewer, "_blank");
+    return;
+  }
+
+  // Format lain
+  window.open(fileUrl, "_blank");
+}
   const ext = fileUrl.split("?")[0].split(".").pop().toLowerCase();
 
   if (!["xlsx", "xls", "csv"].includes(ext)) {
