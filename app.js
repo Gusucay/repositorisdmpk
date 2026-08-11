@@ -6,7 +6,7 @@ const CATS = [
   ["Juknis", "📋", "Petunjuk teknis program"],
   ["Juklak", "📄", "Petunjuk pelaksanaan kegiatan"],
   ["Sertifikat Pelatihan", "🏅", "Arsip sertifikat dan verifikasi peserta"],
-  ["Alumni Pelatihan", "👥", "Data peserta dan alumni pelatihan"]
+ ["Alumni Pelatihan", "👥", "Data peserta dan alumni pelatihan"]
 ];
 
 /* =========================
@@ -247,11 +247,9 @@ function render() {
           d.url
           ? `
             <button
-              onclick="window.open('${escAttr(d.url)}','_blank')">
-              Buka/Download
-            </button>
-          `
-          : `
+onclick="previewDocument(${d.id})">
+Lihat File
+</button>
             <button
               onclick="alert('Belum ada file untuk dokumen ini.')">
               File
