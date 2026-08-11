@@ -437,7 +437,7 @@ function previewFile(id) {
     return;
   }
 
-  // Microsoft Office
+  // Microsoft Office + CSV
   if (
     [
       "xls",
@@ -446,7 +446,8 @@ function previewFile(id) {
       "doc",
       "docx",
       "ppt",
-      "pptx"
+      "pptx",
+      "csv"
     ].includes(ext)
   ) {
     const viewer =
@@ -457,10 +458,9 @@ function previewFile(id) {
     return;
   }
 
-  // File lainnya
+  // Format lain
   window.open(fileUrl, "_blank");
 }
-
   const cleanUrl = fileUrl.split("?")[0];
   const ext = cleanUrl.split(".").pop().toLowerCase();
 
