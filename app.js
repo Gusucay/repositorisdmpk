@@ -414,4 +414,73 @@ function escAttr(s) {
    START
 ========================= */
 
+/* =========================
+   ADD DOCUMENT
+========================= */
+
+async function addDoc(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("title").value.trim();
+  const category = document.getElementById("newcat").value;
+  const year = document.getElementById("newyear").value.trim();
+  const desc = document.getElementById("desc").value.trim();
+  const url = document.getElementById("url").value.trim();
+
+  if (!title) {
+    alert("Judul dokumen wajib diisi.");
+    return;
+  }
+
+  try {
+
+    const response = await fetch(TABLE_URL, {
+      method: "POST",
+
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+
+      body: JSON.stringify({
+        judul: title,
+        kategori: category,
+        tahun: year,
+        deskripsi: desc,
+        file_path: url || null
+      })
+    });
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+      throw new Error(
+        `Supabase ${response.status}: ${responseText}`
+      );
+    }
+
+    alert("Dokumen berhasil disimpan.");
+
+    event.target.reset();
+
+    document.getElementById("newyear").value = "2026";
+
+    await loadDocs();
+
+  } catch (error) {
+
+    console.error("Gagal menyimpan:", error);
+
+    alert(
+      "Gagal menyimpan dokumen.\n\n" +
+      error.message
+    );
+
+  }
+}
+
+
+
 loadDocs();
