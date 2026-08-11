@@ -293,6 +293,127 @@ function pick(c) {
    DETAIL
 ========================= */
 
+async function previewDocument(id) {
+  const d = docs.find(x => x.id === id);
+
+  if (!d || !d.url) {
+    alert("File belum tersedia.");
+    return;
+  }
+
+  const modalBody = document.getElementById("modalBody");
+
+  modalBody.innerHTML = `
+    <div style="padding:10px">
+      <span class="tag">${esc(d.cat)}</span>
+
+      <h2 style="margin-bottom:6px">
+        ${esc(d.title)}
+      </h2>
+
+      <p style="color:#6d7d77">
+        Preview dokumen sebelum di-download.
+      </p>
+
+      <div id="previewArea" style="
+        margin-top:18px;
+        max-height:55vh;
+        overflow:auto;
+        border:1px solid #dce7e2;
+        border-radius:12px;
+        background:white;
+      ">
+        <div style="padding:30px;text-align:center">
+          Memuat file...
+        </div>
+      </div>
+
+      <div style="
+        display:flex;
+        gap:10px;
+        margin-top:18px;
+      ">
+        <a
+          class="btn primary"
+          href="${escAttr(d.url)}"
+          target="_blank"
+          rel="noopener"
+          download>
+          Download Excel ↓
+        </a>
+
+        <button
+          class="btn"
+          onclick="closeModal()">
+          Tutup
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.getElementById("modal").classList.add("on");
+
+  try {
+    const response = await fetch(d.url);
+
+    if (!response.ok) {
+      throw new Error("File tidak dapat diakses.");
+    }
+
+    const buffer = await response.arrayBuffer();
+
+    const workbook = XLSX.read(buffer, {
+      type: "array"
+    });
+
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    const html = XLSX.utils.sheet_to_html(worksheet, {
+      editable: false
+    });
+
+    const previewArea = document.getElementById("previewArea");
+
+    previewArea.innerHTML = `
+      <div style="
+        padding:14px;
+        min-width:max-content;
+      ">
+        <div style="
+          margin-bottom:12px;
+          font-weight:700;
+          color:#1d4f3f;
+        ">
+          Sheet: ${esc(sheetName)}
+        </div>
+
+        <div class="excel-preview">
+          ${html}
+        </div>
+      </div>
+    `;
+
+  } catch (error) {
+
+    console.error("Preview Excel error:", error);
+
+    document.getElementById("previewArea").innerHTML = `
+      <div style="
+        padding:30px;
+        text-align:center;
+        color:#a06b20;
+      ">
+        <strong>Preview Excel tidak dapat ditampilkan.</strong>
+
+        <p style="margin-top:8px">
+          File tetap bisa di-download menggunakan tombol
+          <b>Download Excel</b>.
+        </p>
+      </div>
+    `;
+  }
+}
 function openDoc(id) {
 
   const d = docs.find(x => x.id === id);
