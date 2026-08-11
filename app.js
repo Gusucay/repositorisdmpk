@@ -247,9 +247,9 @@ function render() {
           d.url
           ? `
             <button
-onclick="previewExcel(${d.id})">
-Lihat File
-</button>
+class="btn primary"
+  onclick="previewExcel(${d.id})">
+  Lihat File</button>
             <button
               onclick="alert('Belum ada file untuk dokumen ini.')">
               File
@@ -334,12 +334,11 @@ async function previewDocument(id) {
         margin-top:18px;
       ">
         <a
-          class="btn primary"
-          href="${escAttr(d.url)}"
-          target="_blank"
-          rel="noopener"
-          download>
-          Download Excel ↓
+          <button
+  class="btn primary"
+  onclick="previewDocument(${d.id})">
+  Lihat File
+</button>
         </a>
 
         <button
