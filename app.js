@@ -469,7 +469,6 @@ async function addDoc(event) {
         "apikey": SUPABASE_KEY,
         "Authorization": `Bearer ${SUPABASE_KEY}`,
         "Content-Type": file.type || "application/octet-stream",
-        "x-upsert": "true"
       },
 
       body: file
