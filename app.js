@@ -548,4 +548,102 @@ async function addDoc(event) {
   }
 }
 
+async function addDoc(event) {
+  event.preventDefault();
+
+  const title = document.getElementById("title").value.trim();
+  const category = document.getElementById("newcat").value;
+  const year = document.getElementById("newyear").value.trim();
+  const number = document.getElementById("number").value.trim();
+  const desc = document.getElementById("desc").value.trim();
+  const url = document.getElementById("url").value.trim();
+  const file = document.getElementById("file").files[0];
+
+  if (!title) {
+    alert("Judul dokumen wajib diisi.");
+    return;
+  }
+
+  try {
+    let filePath = url || "";
+
+    /* =========================
+       UPLOAD FILE LOKAL
+    ========================= */
+
+    if (file) {
+      const safeName = file.name.replace(/[^\w.\-]+/g, "_");
+
+      filePath = `${Date.now()}_${safeName}`;
+
+      const uploadResponse = await fetch(
+        `${SUPABASE_URL}/storage/v1/object/dokumen/${encodeURIComponent(filePath)}`,
+        {
+          method: "POST",
+          headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": `Bearer ${SUPABASE_KEY}`,
+            "Content-Type": file.type || "application/octet-stream"
+          },
+          body: file
+        }
+      );
+
+      const uploadText = await uploadResponse.text();
+
+      if (!uploadResponse.ok) {
+        throw new Error(
+          `Upload file gagal (${uploadResponse.status}): ${uploadText}`
+        );
+      }
+    }
+
+    /* =========================
+       SIMPAN KE DATABASE
+    ========================= */
+
+    const response = await fetch(TABLE_URL, {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_KEY,
+        "Authorization": `Bearer ${SUPABASE_KEY}`,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        judul: title,
+        kategori: category,
+        tahun: year,
+        nomor: number,
+        deskripsi: desc,
+        file_path: filePath
+      })
+    });
+
+    const responseText = await response.text();
+
+    if (!response.ok) {
+      throw new Error(
+        `Supabase ${response.status}: ${responseText}`
+      );
+    }
+
+    alert("Dokumen berhasil disimpan.");
+
+    event.target.reset();
+
+    document.getElementById("newyear").value = "2026";
+
+    await loadDocs();
+
+  } catch (error) {
+    console.error("Gagal menyimpan dokumen:", error);
+
+    alert(
+      "Gagal menyimpan dokumen.\n\n" +
+      error.message
+    );
+  }
+}
+
 loadDocs();
