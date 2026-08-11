@@ -239,21 +239,23 @@ function render() {
           Detail
         </button>
 
-        ${
-          d.url
-          ? `
-            <button
-class="btn primary"
-  onclick="previewExcel(${d.id})">
-  Lihat File</button>
-            <button
-              onclick="alert('Belum ada file untuk dokumen ini.')">
-              File
-            </button>
-          `
-
+       ${
+  d.url
+    ? `
+      <button
+        class="btn primary"
+        onclick="previewExcel(${d.id})">
+        Lihat File
+      </button>
+    `
+    : `
+      <button
+        onclick="alert('Belum ada file untuk dokumen ini.')">
+        File
+      </button>
+    `
+}
       </div>
-
     </article>
   `).join("");
 
