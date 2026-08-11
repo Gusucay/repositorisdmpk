@@ -418,69 +418,135 @@ function escAttr(s) {
    ADD DOCUMENT
 ========================= */
 
+/* =========================
+   ADD DOCUMENT
+========================= */
+
 async function addDoc(event) {
   event.preventDefault();
 
   const title = document.getElementById("title").value.trim();
   const category = document.getElementById("newcat").value;
   const year = document.getElementById("newyear").value.trim();
+  const number = document.getElementById("number").value.trim();
   const desc = document.getElementById("desc").value.trim();
-  const url = document.getElementById("url").value.trim();
+
+  const fileInput = document.querySelector(
+    'input[type="file"]'
+  );
+
+  const file = fileInput?.files?.[0];
 
   if (!title) {
     alert("Judul dokumen wajib diisi.");
     return;
   }
 
+  if (!file) {
+    alert("Silakan pilih File Lokal terlebih dahulu.");
+    return;
+  }
+
   try {
 
-    const response = await fetch(TABLE_URL, {
+    /* =========================
+       1. UPLOAD FILE
+    ========================= */
+
+    const safeName = file.name
+      .replace(/[^\w.\-]+/g, "_");
+
+    const filePath =
+      `${Date.now()}_${safeName}`;
+
+    const uploadUrl =
+      `${SUPABASE_URL}/storage/v1/object/dokumen/${encodeURIComponent(filePath)}`;
+
+    const uploadResponse = await fetch(uploadUrl, {
       method: "POST",
 
       headers: {
         "apikey": SUPABASE_KEY,
         "Authorization": `Bearer ${SUPABASE_KEY}`,
-        "Content-Type": "application/json",
-        "Prefer": "return=minimal"
+        "Content-Type": file.type || "application/octet-stream",
+        "x-upsert": "true"
       },
 
-      body: JSON.stringify({
-        judul: title,
-        kategori: category,
-        tahun: year,
-        deskripsi: desc,
-        file_path: url || null
-      })
+      body: file
     });
 
-    const responseText = await response.text();
+    const uploadText =
+      await uploadResponse.text();
+
+    if (!uploadResponse.ok) {
+      throw new Error(
+        `Upload file gagal (${uploadResponse.status}): ${uploadText}`
+      );
+    }
+
+
+    /* =========================
+       2. SIMPAN DATA KE TABEL
+    ========================= */
+
+    const response = await fetch(
+      `${TABLE_URL}`,
+      {
+        method: "POST",
+
+        headers: {
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+          "Prefer": "return=minimal"
+        },
+
+        body: JSON.stringify({
+          judul: title,
+          kategori: category,
+          tahun: year,
+          nomor: number,
+          deskripsi: desc,
+          file_path: filePath
+        })
+      }
+    );
+
+    const responseText =
+      await response.text();
 
     if (!response.ok) {
       throw new Error(
-        `Supabase ${response.status}: ${responseText}`
+        `Database ${response.status}: ${responseText}`
       );
     }
+
+
+    /* =========================
+       3. BERHASIL
+    ========================= */
 
     alert("Dokumen berhasil disimpan.");
 
     event.target.reset();
 
-    document.getElementById("newyear").value = "2026";
+    document.getElementById("newyear").value =
+      "2026";
 
     await loadDocs();
 
   } catch (error) {
 
-    console.error("Gagal menyimpan:", error);
+    console.error(
+      "Gagal menyimpan dokumen:",
+      error
+    );
 
     alert(
       "Gagal menyimpan dokumen.\n\n" +
       error.message
     );
-
   }
 }
-
-
 
 loadDocs();
