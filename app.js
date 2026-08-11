@@ -251,7 +251,6 @@ class="btn primary"
               File
             </button>
           `
-        }
 
       </div>
 
