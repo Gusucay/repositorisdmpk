@@ -461,59 +461,7 @@ function previewFile(id) {
   // Format lain
   window.open(fileUrl, "_blank");
 }
-  const cleanUrl = fileUrl.split("?")[0];
-  const ext = cleanUrl.split(".").pop().toLowerCase();
-
-  // PDF
-  if (ext === "pdf") {
-    window.open(fileUrl, "_blank");
-    return;
-  }
-
-  // Gambar
-  if (["jpg", "jpeg", "png", "gif", "webp"].includes(ext)) {
-    window.open(fileUrl, "_blank");
-    return;
-  }
-
-  // File Microsoft Office
-  if (
-    [
-      "doc",
-      "docx",
-      "xls",
-      "xlsx",
-      "ppt",
-      "pptx",
-      "csv"
-    ].includes(ext)
-  ) {
-    const viewer =
-      "https://docs.google.com/gview?embedded=1&url=" +
-      encodeURIComponent(fileUrl);
-
-    window.open(viewer, "_blank");
-    return;
-  }
-
-  // Format lain
-  window.open(fileUrl, "_blank");
-}
-  const ext = fileUrl.split("?")[0].split(".").pop().toLowerCase();
-
-  if (!["xlsx", "xls", "csv"].includes(ext)) {
-    alert("Preview hanya tersedia untuk file Excel (.xlsx, .xls, .csv).");
-    return;
-  }
-
-  window.open(
-    "https://docs.google.com/gview?embedded=1&url=" +
-    encodeURIComponent(fileUrl),
-    "_blank"
-  );
-}
 function openDoc(id) {
-
   const d = docs.find(x => x.id === id);
 
   if (!d) return;
