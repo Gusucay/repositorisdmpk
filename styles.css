@@ -3593,3 +3593,27 @@ footer a {
     grid-template-columns: 1fr;
   }
 }
+.excel-preview table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+  background: white;
+}
+
+.excel-preview th,
+.excel-preview td {
+  border: 1px solid #d9e5df;
+  padding: 9px 12px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.excel-preview th {
+  font-weight: 700;
+  background: #eef6f2;
+  color: #174c3b;
+}
+
+.excel-preview tr:nth-child(even) {
+  background: #fafcfb;
+}
