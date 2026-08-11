@@ -5,7 +5,8 @@ const CATS = [
   ["Pedoman", "📕", "Acuan dan panduan pelaksanaan"],
   ["Juknis", "📋", "Petunjuk teknis program"],
   ["Juklak", "📄", "Petunjuk pelaksanaan kegiatan"],
-  ["Sertifikat Pelatihan", "🏅", "Arsip sertifikat dan verifikasi peserta"]
+  ["Sertifikat Pelatihan", "🏅", "Arsip sertifikat dan verifikasi peserta"],
+  ["Alumni Pelatihan", "👥", "Data peserta dan alumni pelatihan"]
 ];
 
 /* =========================
