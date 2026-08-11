@@ -75,28 +75,23 @@ const data = JSON.parse(responseText);
 
     setup();
 
-  } catch (error) {
-
+   } catch (error) {
     console.error("Supabase error:", error);
 
     docs = [];
 
     if (container) {
-      container.innerHTML = `
-        <div class="empty">
-          Tidak dapat terhubung ke database Supabase.
-          <br><br>
-          Periksa Publishable Key dan RLS tabel dokumen.
-        </div>
-      `;
+      container.innerHTML = "";
     }
 
     if (empty) {
-      empty.hidden = true;
+      empty.hidden = false;
     }
+
+    // Tetap tampilkan kategori meskipun database gagal dimuat
+    setup();
   }
 }
-
 
 /* =========================
    FILE URL
