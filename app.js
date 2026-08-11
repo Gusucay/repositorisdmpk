@@ -247,7 +247,7 @@ function render() {
           d.url
           ? `
             <button
-onclick="previewDocument(${d.id})">
+onclick="previewExcel(${d.id})">
 Lihat File
 </button>
             <button
@@ -413,6 +413,31 @@ async function previewDocument(id) {
       </div>
     `;
   }
+}
+function previewExcel(id) {
+  const d = docs.find(x => x.id === id);
+
+  if (!d) return;
+
+  const fileUrl = d.file_url || d.url || d.public_url;
+
+  if (!fileUrl) {
+    alert("File Excel tidak tersedia.");
+    return;
+  }
+
+  const ext = fileUrl.split("?")[0].split(".").pop().toLowerCase();
+
+  if (!["xlsx", "xls", "csv"].includes(ext)) {
+    alert("Preview hanya tersedia untuk file Excel (.xlsx, .xls, .csv).");
+    return;
+  }
+
+  window.open(
+    "https://docs.google.com/gview?embedded=1&url=" +
+    encodeURIComponent(fileUrl),
+    "_blank"
+  );
 }
 function openDoc(id) {
 
