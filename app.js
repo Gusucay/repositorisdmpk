@@ -117,7 +117,8 @@ function makeFileUrl(path) {
 ========================= */
 
 function setup() {
-
+console.log("SETUP BERJALAN");
+  
   const cats = document.getElementById("cats");
 
   const selects = [
