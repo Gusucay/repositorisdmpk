@@ -3637,3 +3637,158 @@ footer a {
 .category-nav a:hover {
   color: var(--green);
 }
+/* =========================================================
+   CATEGORY CARDS — FIX
+   ========================================================= */
+
+.cats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.cat-card {
+  position: relative;
+  min-height: 210px;
+  padding: 24px;
+  overflow: hidden;
+
+  border: 1px solid #dfeae5;
+  border-radius: 20px;
+
+  background: linear-gradient(
+    145deg,
+    #ffffff,
+    #f7fbf9
+  );
+
+  box-shadow:
+    0 8px 25px rgba(20, 70, 50, .05);
+
+  cursor: pointer;
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease;
+}
+
+.cat-card::after {
+  content: "";
+  position: absolute;
+
+  width: 120px;
+  height: 120px;
+
+  right: -50px;
+  bottom: -50px;
+
+  border-radius: 50%;
+
+  background: rgba(23, 107, 77, .05);
+}
+
+.cat-card:hover {
+  transform: translateY(-7px);
+
+  border-color: rgba(23,107,77,.25);
+
+  box-shadow:
+    0 22px 45px rgba(18,68,50,.12);
+}
+
+.cat-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cat-icon {
+  width: 52px;
+  height: 52px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 15px;
+
+  background: linear-gradient(
+    145deg,
+    #edf8f2,
+    #e1f1e9
+  );
+
+  font-size: 25px;
+}
+
+.cat-number {
+  color: #9aafa6;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.cat-content {
+  margin-top: 25px;
+}
+
+.cat-content h3 {
+  margin: 0 0 8px;
+
+  color: var(--text);
+
+  font-size: 17px;
+  line-height: 1.25;
+}
+
+.cat-content p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.cat-arrow {
+  position: absolute;
+
+  right: 22px;
+  bottom: 20px;
+
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 50%;
+
+  background: var(--green-light);
+  color: var(--green);
+
+  font-weight: 800;
+
+  transition: .25s ease;
+}
+
+.cat-card:hover .cat-arrow {
+  background: var(--green);
+  color: white;
+  transform: translateX(4px);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 900px) {
+  .cats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .cats {
+    grid-template-columns: 1fr;
+  }
+}
